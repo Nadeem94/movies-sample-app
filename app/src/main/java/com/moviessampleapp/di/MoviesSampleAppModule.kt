@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.moviessampleapp.BuildConfig
 import com.moviessampleapp.MoviesSampleApplication
+import com.moviessampleapp.data.network.CacheControlInterceptor
 import com.moviessampleapp.data.network.MoviesSampleApi
 import dagger.Module
 import dagger.Provides
@@ -37,51 +38,6 @@ class MoviesSampleAppModule {
     @Singleton
     fun provideContext(app: MoviesSampleApplication): Context {
         return app.applicationContext
-    }
-
-    @Provides
-    @Singleton
-    internal fun provideCache(context: Context): Cache {
-        val cacheSize = 10 * 1024 * 1024L // 10 MB
-        val httpCacheDirectory = File(context.cacheDir.absolutePath, "HttpCache")
-        return Cache(httpCacheDirectory, cacheSize)
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(cache: Cache): OkHttpClient {
-        return OkHttpClient.Builder()
-            .cache(cache)
-            .apply {
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                }
-            }
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder()
-            .serializeNulls()
-            .create()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://movies-sample.herokuapp.com/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideMoviesApi(retrofit: Retrofit): MoviesSampleApi {
-        return retrofit.create(MoviesSampleApi::class.java)
     }
 
     @Provides

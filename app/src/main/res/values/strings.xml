@@ -2,5 +2,7 @@
     <string name="app_name">Movies Sample App</string>
 
     <string name="movie_title_and_year">%1$s (%2$s)</string>
-    <string name="movie_content_desc">Movie Picture</string>
+    <string name="movie_content_desc">Movie Poster</string>
+    <string name="movie_search_query_hint">Search movies by title or genre</string>
+
 </resources>

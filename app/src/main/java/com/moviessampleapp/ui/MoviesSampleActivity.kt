@@ -10,14 +10,14 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Nadeem on 19/10/2021.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MoviesSampleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.movies_sample_activity)
 
         supportFragmentManager.commitNow {
-            replace(R.id.container, MainFragment.newInstance())
+            replace(R.id.container, MoviesSampleFragment.newInstance())
         }
     }
 }

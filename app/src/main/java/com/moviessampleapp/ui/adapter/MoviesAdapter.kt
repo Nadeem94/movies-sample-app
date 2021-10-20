@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.load
 import com.moviessampleapp.R
 import com.moviessampleapp.data.Movie
 import com.moviessampleapp.databinding.MovieItemBinding
+import com.moviessampleapp.ui.MoviesSampleFragment
 import javax.inject.Inject
 
 /**
@@ -80,7 +82,13 @@ class MoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
         fun bind(movie: Movie) = movie.run {
             binding.titleYear.text = resources.getString(R.string.movie_title_and_year, title, year)
             binding.genre.text = genre
-            binding.image.load(poster, imageLoader)
+            binding.image.load(poster, imageLoader) {
+                error(R.drawable.ic_movie_placeholder)
+                placeholder(R.drawable.ic_movie_placeholder)
+            }
+            binding.root.setOnClickListener {
+                it.findFragment<MoviesSampleFragment>().onMovieItemClick(this)
+            }
         }
     }
 }
