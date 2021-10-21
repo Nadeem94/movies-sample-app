@@ -21,6 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="@dimen/medium_margin"
             android:iconifiedByDefault="false"
+            android:imeOptions="actionSearch|flagNoExtractUi"
             android:onQueryTextChange="@{(query) -> vm.onQueryChanged(query)}"
             android:queryHint="@string/movie_search_query_hint" />
 

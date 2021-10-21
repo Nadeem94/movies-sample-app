@@ -5,4 +5,6 @@
     <string name="movie_content_desc">Movie Poster</string>
     <string name="movie_search_query_hint">Search movies by title or genre</string>
 
+    <string name="network_error">Network Error - %s</string>
+
 </resources>

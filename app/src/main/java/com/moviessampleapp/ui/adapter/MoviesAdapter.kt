@@ -1,6 +1,7 @@
 package com.moviessampleapp.ui.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.ImageLoader
 import coil.load
 import com.moviessampleapp.R
@@ -76,6 +78,7 @@ class MoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
 
     inner class MovieViewHolder(
         private val binding: MovieItemBinding,
+        private val context: Context = binding.root.context,
         private val resources: Resources = binding.root.resources
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -83,8 +86,8 @@ class MoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
             binding.titleYear.text = resources.getString(R.string.movie_title_and_year, title, year)
             binding.genre.text = genre
             binding.image.load(poster, imageLoader) {
+                placeholder(CircularProgressDrawable(context))
                 error(R.drawable.ic_movie_placeholder)
-                placeholder(R.drawable.ic_movie_placeholder)
             }
             binding.root.setOnClickListener {
                 it.findFragment<MoviesSampleFragment>().onMovieItemClick(this)

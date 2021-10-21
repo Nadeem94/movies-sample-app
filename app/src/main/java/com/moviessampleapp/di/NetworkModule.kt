@@ -9,6 +9,7 @@ import com.moviessampleapp.data.network.MoviesSampleApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -27,7 +28,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideCache(context: Context): Cache {
+    fun provideCache(@ApplicationContext context: Context): Cache {
         return Cache(File(context.cacheDir.absolutePath, CACHE_NAME), CACHE_SIZE)
     }
 
@@ -43,14 +44,6 @@ class NetworkModule {
                 }
             }
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder()
-            .serializeNulls()
-            .create()
     }
 
     @Provides

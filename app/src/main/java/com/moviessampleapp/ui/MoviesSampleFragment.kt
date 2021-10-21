@@ -29,7 +29,7 @@ class MoviesSampleFragment : Fragment(), OnMovieItemClickListener {
     @Inject
     lateinit var moviesAdapter: MoviesAdapter
 
-    private val mainViewModel by viewModels<MoviesSampleViewModel>()
+    private val viewModel by viewModels<MoviesSampleViewModel>()
 
     private var toast: Toast? = null
 
@@ -38,14 +38,14 @@ class MoviesSampleFragment : Fragment(), OnMovieItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         val binding = MoviesSampleFragmentBinding.inflate(inflater, container, false)
-        binding.vm = mainViewModel
+        binding.vm = viewModel
         binding.setup()
         return binding.root
     }
 
     private fun MoviesSampleFragmentBinding.setup() {
         moviesList.setup()
-        mainViewModel.run {
+        viewModel.run {
             movies.observe(viewLifecycleOwner) {
                 moviesAdapter.setMovieList(it)
             }
@@ -53,11 +53,11 @@ class MoviesSampleFragment : Fragment(), OnMovieItemClickListener {
                 it?.let { moviesAdapter.filter.filter(it) }
             }
             errorMessage.observe(viewLifecycleOwner) {
-                it?.let(::showToast)
+                it?.let { showToast(getString(R.string.network_error, it)) }
             }
             moviesSwipeRefresh.apply {
                 isLoading.observe(viewLifecycleOwner) {
-                    isRefreshing = mainViewModel.isLoading.value ?: false
+                    isRefreshing = it
                 }
                 setOnRefreshListener { retrieveSampleMovies() }
             }
